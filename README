@@ -1,0 +1,231 @@
+(New steps for building and running a local version of nfd and nrd can
+ be found at the bottom of this file.)
+
+Files for running nfd performance tests on ONL.
+
+2/24/2015: Updated to run with nfd version 0.3.0 (commit id: 0.3.0-19-g73b909a)
+           This new version incorporates the nrd into a thread in the nfd process.
+           So, it is no longer necessary to start a separate nrd process.
+
+Key scripts in each test directory:
+ONL_RLI_Files  : The files in this directory need to be copied to your .onldir on 
+                 the machine where you will run the ONL RLI
+mkAll.sh       : Use this script to configure your test. You can control the number of
+                 traffic client/server pairs, the protocol for the faces, the delay 
+                 interval for ndn-traffic-client, the number of segments in the ndn 
+                 names and the length of each segment. This script creates other 
+                 scripts that will then be used to configure and run your test.
+cleanAll.sh    : This script removes all the scripts and configuration files that 
+                 were created by mkAll.sh
+killAll.sh     : This script kills all the processes (nfd, nrd, ndn-traffic-client, 
+                 ndn-traffic-server) that were run for your test.
+runAll.sh      : This script configures and runs the test.
+hosts	       : This script coincides with the ONL RLI files and defines the hosts 
+                 in your topology. If you change the topology in the RLI you might 
+                 need to change this file as well. This file is used to tell the 
+                 mkAll.sh script which hosts are clients, servers and rtr.
+
+ONL_RLI_Files:
+    HOST2core.shw, PC2core.hw  : These are hardware description files for the pc2core 
+                                 machines used in this topology. The pc2core machines 
+                                 are new to ONL and are only built into new versions of
+                                 the RLI. If you have version 8.0 or later you do
+                                 not need these files. If you have 7.x or earlier
+                                 you do need them.
+    nfd_16_clients_16_servers_1_rtr : This is the topology file that will be loaded 
+                                      into the RLI for your experiment.
+
+Steps:
+  0. Need to learn about ONL or get an account: https://onl.wustl.edu/
+  1. Start the RLI on your laptop (or desktop machine, or...)
+  2. Load the topology file:
+         Go to the File menu and click on Open.
+         Find the nfd_16_clients_16_servers_1_rtr file, click on it and click Open.
+  3. Make a reservation
+         Go to the File menu and click on Make Reservation. 
+  4. Commit
+         The commit operation will take a couple/few minutes.
+         When it says "Commit Completed" at the bottom of the RLI, 
+         move on to the next step.
+  5. In a terminal window log in to ONL.
+  6. Retrieve the repo into your ONL home directory:
+        git clone http://github.com/WU-ARL/NFD_Performance_Testing_on_ONL
+  7. Set up to run without sudo access. You will need a client.conf
+     file on ONL: ~/.ndn/client.conf . It should contain the following
+     two lines:
+         unix_socket=/tmp/nfd.sock
+         protocol=nrd-0.1
+
+     This puts the nfd socket file in /tmp instead of the default /var/run/
+     Running without sudo will cause a couple of errors when starting nfd.
+     Something like these two:
+     1398111630.734668 ERROR: [FaceManager] pcap_activate() failed, continuing
+     1398111630.734820 ERROR: [FaceManager] pcap_activate() failed, continuing
+     These occur when nfd tries to enable promiscuous mode on the ethernet interface
+     for ethernet faces. These are ok for now, we are not currently using
+     ethernet faces on ONL.
+
+  8. Set up a key and certificate. On one of your hosts (NOT onlusr) you will
+     need to run the following:
+          # In the NFD_Performance_Testing_on_ONL/Variable_Length_Names direcotry
+          # do the following.
+
+          # This checks to see if you already have a cert installed.
+          > ndnsec-cert-dump -i /`whoami` 
+
+          # If you already have a cert installed, skip this step and
+          # go to the extraction step.
+          # If you need to install one, 
+          # this installs a cert into your local environment:
+          > ndnsec-keygen /`whoami` | ndnsec-install-cert -
+
+          # This extracts the cert so you can point to it in configuration 
+          # files for nfd and nrd:
+          > ndnsec-cert-dump -i /`whoami` >  default.ndncert
+
+          # This sets up the file that nrd needs
+          > ln -s default.ndncert trust-anchor.cert
+
+
+
+  9. Try the Variable_Length_Names test. 
+     Do the following on onlusr:
+
+     > cd NFD_Performance_Testing_on_ONL/Variable_Length_Names
+
+     # To see the mkAll.sh Usage message:
+     > ./mkAll.sh
+     Usage: ./mkAll.sh <count> <proto> <interval> <num name segments> <segment length>
+     count: Number of client server pairs
+     proto: protocol for the nfd faces
+     interval: time in milliseconds between Interests sent from clients.
+     num name segments: number of segments in the NDN names used
+     segment lengths: number of characters in each name segment.
+     Each name will have a last name segment (000, 001, 002, ...) 
+     that identifies the particular server serving that name space.
+
+     # configure test with 16 client/server pairs, udp4 faces, 10ms interval between
+     #   interests and NDN names with 4 segments with 5 characters in each segment:
+     > ./mkAll.sh 16 udp4 10 4 5
+     # This will run a test with names like this:
+     # /abcde/fghij/klmno/pqrst/000
+     # /abcde/fghij/klmno/pqrst/001
+     # /abcde/fghij/klmno/pqrst/002
+     # ...
+
+     # run the tst
+     > ./runAll.sh
+
+     This takes a couple of minutes to run and you'll see lots of 
+     messages about what it is doing.
+     When you see this:
+
+        runTrafficServers.sh
+        runTrafficClients.sh
+
+      everything should be running and you should see traffic being displayed in 
+      the monitoring windows. The "NFD Pkt Counts" monitoring window will show you
+      how many pkts/sec the NFD router node is able to handle.
+
+
+  10. When you are ready to stop the experiment:
+      > ./killAll.sh
+
+  11. If you want to clear away the created scripts and log files:
+      > ./cleanAll.sh
+
+  12. Then you can configure another script with different arguments 
+      to mkAll.sh if you want.
+
+  13. To push the performance of nfd on the router node, you can increase the count of
+      client/server pairs and decrease the interval time.
+      For instance, the following configuration pushes nfd 0.1.0 beyond what it
+      can keep up with:
+      > ./mkAll.sh 64 udp4 5 4 5
+
+  14. The directions so far are for running the installed version of nfd. If you need to
+      run these tests with a local version of nfd  that you have built, you will need to
+      update your PATH to make sure your version of nfd is picked up before /usr/local/bin/nfd.
+      Or you can modify the following script:
+          NFD_Performance_Testing_on_ONL/Variable_Length_Names/start_nfd.sh
+
+      Similar steps can be taken to run your own version of nrd (if needed). The script that 
+          runs nrd is in: NFD_Performance_Testing_on_ONL/Variable_Length_Names/start_nrd.sh
+
+      To run your own versions of ndn-traffic and ndn-traffic-server is more involved as the start
+      scripts for them are generated via the mkAll.sh script. So, using the PATH method for them
+      would be the best approach.
+
+
+
+-------------------------------------------------------------------------
+Building and running a local version of nfd and nrd
+
+On onlusr:
+
+onlusr> cd ~
+onlusr> git clone http://github.com/WU-ARL/NFD_Performance_Testing_on_ONL
+onlusr> cd NFD_Performance_Testing_on_ONL/
+onlusr> cd NFD_current_git/
+onlusr> ./git_initial.sh
+
+
+On a pc2core:
+
+pc2core19> cd ~
+pc2core19> cd NFD_Performance_Testing_on_ONL/NFD_current_git/
+pc2core19> ./build_all.sh
+
+
+On onlusr:
+onlusr> cd ~
+onlusr> cd NFD_Performance_Testing_on_ONL/Variable_Length_Names/
+
+onlusr>  ./mkAll.sh
+Usage: ./mkAll.sh [options] <count> <proto> <interval> <num name components> <component length>
+Options:
+  [--local]     - use start scripts to run local (../NFD_current_git_optimized/usr/local/bin/) versions of nfd and nrd
+  [--installed] - use start scripts to run the installed (based on PATH) versions of nfd and nrd
+
+
+onlusr> ./mkAll.sh --local  64 udp4 8 5 5
+onlusr> ./runAll.sh
+
+< run as long as you need, and then:>
+
+onlusr> ./killAll.sh
+
+
+
+-------------------------------------------------------------------------
+Building and running a local profiled version of nfd and nrd
+
+Assuming you already have the NFD_Performance_Testing_on_ONL repo
+
+On a pc2core:
+
+pc2core19> cd ~
+pc2core19> cd NFD_Performance_Testing_on_ONL/NFD_current_git/
+pc2core19> ./build_all.sh --profile
+
+On onlusr:
+onlusr> cd ~
+onlusr> cd NFD_Performance_Testing_on_ONL/Variable_Length_Names/
+
+onlusr>  ./mkAll.sh
+Usage: ./mkAll.sh [options] <count> <proto> <interval> <num name components> <component length>
+Options:
+  [--local]     - use start scripts to run local (../NFD_current_git_optimized/usr/local/bin/) versions of nfd and nrd
+  [--installed] - use start scripts to run the installed (based on PATH) versions of nfd and nrd
+
+
+onlusr> ./mkAll.sh --local  64 udp4 8 5 5
+onlusr> ./runAll.sh
+
+< run as long as you need, and then:>
+
+onlusr> ./killAll.sh
+
+onlusr> gprof ../NFD_current_git/usr/local/bin/nfd gmon.out >& gprof.out
+
+

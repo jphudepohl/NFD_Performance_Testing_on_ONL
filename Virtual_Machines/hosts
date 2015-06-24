@@ -1,0 +1,8 @@
+# [router name]:[VM name]:[prefix advertised]:[router port address]
+
+ROUTER_HOST_PAIRS=( "h2x1:VMsmall2:mccoy:192.168.8.2"
+                    "h5x2:VMsmall3:ndn0:192.168.1.2"
+                    "h7x2:VMsmall4:titan:192.168.6.2"
+                    "h10x2:VMsmall5:wundngw:192.168.9.2"
+                    "h11x1:VMsmall6:hobo:192.168.12.2"
+                    "h20x2:VMsmall7:ndnx:192.168.21.2")

@@ -1,0 +1,15 @@
+# if you use quotes in this file, setup_conf.py will most likely break
+#  because it parses the file looking for quotes. It is this way so 
+#  that this file can be sourced by bash scripts and used to generate
+#  configuration files. Also, you could improve the python to make this
+#  not an issue if it bothers you
+
+# the format here is [router name]:[site name]:[host alias]:[router ip]:[{neighbor router name}: for each neighbor]
+
+ROUTER_CONFIG=( "mccoy:colostate:h2x1:192.168.2.1:ndnx:ndn0:hobo"
+                "ndnx:illinois:h20x2:192.168.20.2:mccoy:ndn0:wundngw"
+                "ndn0:umich:h5x2:192.168.5.2:mccoy:wundngw:titan"
+                "titan:memphis:h7x2:192.168.7.2:ndn0:wundngw:hobo"
+                "wundngw:wustl:h10x2:192.168.10.2:hobo:titan:ndnx"
+                "hobo:arizona:h11x1:192.168.11.1:wundngw:mccoy:titan")
+
