@@ -1,4 +1,4 @@
-# [router name]:[VM name]:[prefix advertised]:[router port address]
+# [router name]:[VM name]:[prefix advertised]:[port address]
 
 ROUTER_HOST_PAIRS=( "h2x1:VMsmall2:mccoy:192.168.8.2"
                     "h5x2:VMsmall3:ndn0:192.168.1.2"

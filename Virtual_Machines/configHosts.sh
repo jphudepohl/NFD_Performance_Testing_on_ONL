@@ -17,7 +17,7 @@ do
   PREFIX=${pair_info[2]}
   
   ssh ${!HOST} "source ~/.topology;
-             cd $CWD ;
-             nfdc create udp4://$ROUTER:6363
-             nfdc add-nexthop -c 1 / udp4://$ROUTER:6363" 
+                cd $CWD ;
+                nfdc create udp4://$ROUTER:6363
+                nfdc add-nexthop -c 1 / udp4://$ROUTER:6363" 
 done

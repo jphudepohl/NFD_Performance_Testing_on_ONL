@@ -27,7 +27,7 @@ do
     started_nfd+=("$ROUTER")
   fi
   # start nfd on HOST
-  ssh ${!HOST} "cd $CWD ; ./start_nfd.sh" 
+  # *** will do this manually on VMs for now *** ssh ${!HOST} "cd $CWD ; ./start_nfd.sh" 
 done
 
 
