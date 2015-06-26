@@ -18,6 +18,7 @@ do
   pair_info=(${s//:/ })
   ROUTER=${pair_info[0]}
   HOST=${pair_info[1]}
+  ADDRESS=${pair_info[3]}
   echo "startAll.sh, nfd: $ROUTER, $HOST"
   # array_contains defined in helperFunctions
   if ! array_contains $started_nfd $ROUTER
@@ -26,8 +27,15 @@ do
     ssh ${!ROUTER} "cd $CWD ; ./start_nfd.sh"
     started_nfd+=("$ROUTER")
   fi
-  # start nfd on HOST
-  # *** will do this manually on VMs for now *** ssh ${!HOST} "cd $CWD ; ./start_nfd.sh" 
+    # transfer ~/.ndn/client.conf and ~/.topology files to VMs
+    sshpass -e sftp ${!HOST} <<EOF
+      put ../../.ndn/client.conf
+      put ../../.topology
+EOF
+    # move client.conf file, add IP routing table, and start nfd on VMs <-- TODO
+    sshpass -e ssh -t ${!HOST} "mkdir .ndn ; echo test
+       mv client.conf .ndn/client.conf
+       echo $SSHPASS | sudo -S -p '' /sbin/route add -net 192.168.0.0/16 gw $ADDRESS" 
 done
 
 

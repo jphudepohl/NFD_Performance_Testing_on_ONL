@@ -15,6 +15,10 @@ else
    echo "zero FAILURES "
 fi
 
+# prompt user for VM password
+read -p "VM Password: " -s SSHPASS ; echo
+export SSHPASS
+
 echo "startAll.sh"
 ./startAll.sh 
 echo "configAll.sh"
