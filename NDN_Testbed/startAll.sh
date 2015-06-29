@@ -33,7 +33,7 @@ do
       put ../../.topology
 EOF
     # move client.conf file, add IP routing table, and start nfd on VMs <-- TODO
-    sshpass -e ssh -t ${!HOST} "mkdir .ndn ; echo test
+    sshpass -e ssh -t ${!HOST} "mkdir .ndn
        mv client.conf .ndn/client.conf
        echo $SSHPASS | sudo -S -p '' /sbin/route add -net 192.168.0.0/16 gw $ADDRESS" 
 done
