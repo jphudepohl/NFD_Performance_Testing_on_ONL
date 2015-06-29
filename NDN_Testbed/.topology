@@ -1,0 +1,8 @@
+if [ -f /users/onl/experiments/$LOGNAME ]; then
+  while read local public; do
+        invalid=`(expr "$local" : '.*\..*')`
+        if [ "$invalid" -eq 0 ] ; then 
+                export $local=$public
+        fi
+  done < /users/onl/experiments/$LOGNAME
+fi
