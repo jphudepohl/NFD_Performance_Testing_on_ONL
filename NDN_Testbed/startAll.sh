@@ -30,12 +30,14 @@ do
     # transfer ~/.ndn/client.conf and ~/.topology files to VMs
     sshpass -e sftp ${!HOST} <<EOF
       put ../../.ndn/client.conf
-      put ../../.topology
+      put ./start_nfd.sh
+      put ./nfd.conf
 EOF
     # move client.conf file, add IP routing table, and start nfd on VMs <-- TODO
-    sshpass -e ssh -t ${!HOST} "mkdir .ndn
-       mv client.conf .ndn/client.conf
-       echo $SSHPASS | sudo -S -p '' /sbin/route add -net 192.168.0.0/16 gw $ADDRESS" 
+    sshpass -e ssh -t ${!HOST} "mkdir .ndn ;
+       mv client.conf .ndn/client.conf ;
+       echo $SSHPASS | sudo -S -p '' /sbin/route add -net 192.168.0.0/16 gw $ADDRESS ;
+       ./start_nfd.sh" 
 done
 
 

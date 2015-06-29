@@ -10,8 +10,8 @@ do
   ROUTER=${pair_info[0]}
   HOST=${pair_info[1]}
   PREFIX=${pair_info[2]}
+  ROUTER_IP=${pair_info[4]}
 
-  sshpass -e ssh -t ${!HOST} "source ~/.topology
-                              nfdc create udp4://$ROUTER:6363
-                              nfdc add-nexthop -c 1 / udp4://$ROUTER:6363" 
+  sshpass -e ssh -t ${!HOST} "nfdc create udp4://$ROUTER_IP:6363
+                              nfdc add-nexthop -c 1 / udp4://$ROUTER_IP:6363" 
 done

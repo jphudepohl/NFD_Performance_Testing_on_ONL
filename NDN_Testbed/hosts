@@ -1,8 +1,8 @@
-# [router name]:[VM name]:[prefix advertised]:[VM port address]
+# [router name]:[VM name]:[prefix advertised]:[VM port address]:[router ip]
 
-ROUTER_HOST_PAIRS=( "h8x2:VMsmall2:mccoy:192.168.7.1"
-                    "h11x1:VMsmall6:hobo:192.168.12.2"
-                    "h1x2:VMsmall3:ndn0:192.168.5.1"
-                    "h2x2:VMsmall4:titan:192.168.4.1"
-                    "h10x2:VMsmall5:wundngw:192.168.9.2"
-                    "h18x2:VMsmall7:ndnx:192.168.3.1")
+ROUTER_HOST_PAIRS=( "h8x2:VMsmall2:mccoy:192.168.7.1:192.168.8.2"
+                    "h11x1:VMsmall6:hobo:192.168.12.2:192.168.11.1"
+                    "h1x2:VMsmall3:ndn0:192.168.5.1:192.168.1.2"
+                    "h2x2:VMsmall4:titan:192.168.4.1:192.168.2.2"
+                    "h10x2:VMsmall5:wundngw:192.168.9.2:192.168.10.2"
+                    "h18x2:VMsmall7:ndnx:192.168.3.1:192.168.18.2")
