@@ -10,7 +10,7 @@ source helperFunctions
 # ROUTER_HOST_PAIRS contains 'tuples' of
 #  router-hosts pair names/prefixes. There can be 
 #  duplicate routers but not hosts
-echo "start nfd on all machines"
+echo "Start nfd on routers, transfer client.conf to VMs"
 
 started_nfd=()
 for s in "${ROUTER_HOST_PAIRS[@]}" 
@@ -19,7 +19,7 @@ do
   ROUTER=${pair_info[0]}
   HOST=${pair_info[1]}
   ADDRESS=${pair_info[3]}
-  echo "startAll.sh, nfd: $ROUTER, $HOST"
+  echo "nfd: $ROUTER, $HOST"
   # array_contains defined in helperFunctions
   if ! array_contains $started_nfd $ROUTER
   then
@@ -28,7 +28,7 @@ do
     started_nfd+=("$ROUTER")
   fi
     # transfer ~/.ndn/client.conf file to VMs
-    sshpass -e sftp ${!HOST} <<EOF
+    sshpass -e sftp ${!HOST} > sftp.log <<EOF
       put ../../.ndn/client.conf
 EOF
     # move client.conf file, add IP routing table, and start nfd on VMs <-- TODO

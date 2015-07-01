@@ -13,7 +13,7 @@ CWD=`pwd`
 
 # get nfd running on hosts and 
 #  nfd and nlsr running on routers
-echo "configuring hosts"
+# echo "configuring hosts"
 # ./configVMs.sh ${PROTO}  ****run this manually after starting nfd on VMs***** 
-echo "configuring Routers"
+echo "Configuring routers"
 ./configRouters.sh ${PROTO}
