@@ -9,4 +9,4 @@ if [ $# -eq 1 ]
 then COUNT=$1
 fi
 
-ssh $VMsmall2 "ndnping -c $COUNT /ndn/edu/wustl/ping"
+ssh $VMsmall4 "ndnping -c $COUNT /ndn/edu/wustl/ping"

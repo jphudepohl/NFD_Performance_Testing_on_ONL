@@ -41,4 +41,3 @@ echo "configAll.sh"
 #else
 #  ./runTrafficClients.sh 
 #fi
-
