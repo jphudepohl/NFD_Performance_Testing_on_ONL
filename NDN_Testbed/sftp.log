@@ -1,0 +1,2 @@
+sftp>       put ../../.ndn/client.conf
+Uploading ../../.ndn/client.conf to /home/jhudepohl/client.conf
