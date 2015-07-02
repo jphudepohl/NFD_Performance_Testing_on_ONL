@@ -6,12 +6,9 @@ source helperFunctions
 
 CWD=`pwd`
 
-# --- GET BACK TO THIS ---
-# ***********************************
-# *** This is not tested/complete ***
-# ***********************************
-# echo "Kill Traffic"
-# ./killTraffic.sh
+# prompt user for VM password
+read -p "VM Password: " -s SSHPASS ; echo
+export SSHPASS
 
 killed_nfd=()
 for s in "${ROUTER_HOST_PAIRS[@]}" 
@@ -28,7 +25,7 @@ do
     ssh ${!ROUTER} "killall nfd ; killall nlsr"
     killed_nfd+=("$ROUTER")
   fi
-  ssh ${!HOST} "killall nfd" 
+  sshpass -e ssh -t ${!HOST} "killall nfd" 
 done
 
 echo "sleep 10 to give nfd from clients and servers to dump gmon.out if they are. Then rtr can be the last"
