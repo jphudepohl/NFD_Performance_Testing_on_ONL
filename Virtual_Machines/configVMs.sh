@@ -4,10 +4,6 @@ CWD=pwd
 source ~/.topology
 source hosts
 
-# prompt user for VM password
-read -p "VM Password: " -s SSHPASS ; echo
-export SSHPASS
-
 for s in "${ROUTER_HOST_PAIRS[@]}" 
 do
   pair_info=(${s//:/ })
