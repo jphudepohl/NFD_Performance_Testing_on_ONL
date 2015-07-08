@@ -1,8 +1,31 @@
 # [router name]:[VM name]:[prefix advertised]:[VM port address]:[router ip]
 
-ROUTER_HOST_PAIRS=( "h8x2:VMsmall2:mccoy:192.168.7.1:192.168.8.2"
-                    "h11x1:VMsmall6:hobo:192.168.12.2:192.168.11.1"
-                    "h1x2:VMsmall3:ndn0:192.168.5.1:192.168.1.2"
-                    "h2x2:VMsmall4:titan:192.168.4.1:192.168.2.2"
-                    "h10x2:VMsmall5:wundngw:192.168.9.2:192.168.10.2"
-                    "h18x2:VMsmall7:ndnx:192.168.3.1:192.168.18.2")
+ROUTER_HOST_PAIRS=( "h15x2:VMsmall2:mccoy:192.168.16.1:192.168.15.2"
+					"h13x1:VMsmall3:pastal0:192.168.14.2:192.168.13.1"
+					"h11x1:VMsmall4:spurs:192.168.12.2:192.168.11.1"
+					"h9x1:VMsmall5:aleph:192.168.10.2:192.168.9.1"
+					"h7x1:VMsmall6:ndnhub:192.168.8.2:192.168.7.1"
+					"h5x1:VMsmall7:click:192.168.6.2:192.168.5.1"
+                    "h3x1:VMsmall25:hobo:192.168.4.1:192.168.3.1"
+                    
+                    "h28x1:VMsmall29:wundngw:192.168.29.2:192.168.28.1"
+                    "h30x1:VMsmall28:ndnx:192.168.31.1:192.168.30.1"
+                    "h27x1:VMsmall27:ndn0:192.168.26.2:192.168.27.1"
+                    "h25x2:VMsmall26:ndnrtr:192.168.24.1:192.168.25.2"
+                    "h23x2:VMsmall34:labs-ndn3:192.168.22.1:192.168.23.2"
+                    "h21x1:VMsmall30:titan:192.168.20.2:192.168.21.1"
+
+                    "h49x1:VMsmall43:ndnhub:192.168.49.2:192.168.49.1"
+                    "h51x2:VMsmall44:ndnnode:192.168.50.2:192.168.51.2"
+                    "h57x1:VMsmall45:systemx-ndn-1:192.168.56.2:192.168.57.1"
+                    "h55x2:VMsmall46:cs-ndn-testbed1:192.168.54.1:192.168.55.2"
+                    "h53x2:VMsmall47:orange-ndn-1:192.168.52.1:192.168.53.2"
+                    "h47x1:VMsmall48:ndnnode:192.168.46.2:192.168.47.1"
+                    "h44x1:VMsmall49:insula:192.168.45.1:192.168.44.1"
+
+                    "h32x1:VMsmall35:cnlab:192.168.33.2:192.168.32.1"
+                    "h34x1:VMsmall36:parklab:192.168.35.2:192.168.34.1"
+                    "h36x1:VMsmall37:router3:192.168.37.2:192.168.36.1"
+                    "h38x1:VMsmall38:anyanghub:192.168.39.2:192.168.38.1"
+                    "h42x2:VMsmall39:bupthub:192.168.40.2:192.168.42.2"
+                    "h43x2:VMsmall40:pkuhub:192.168.41.2:192.168.43.2")
