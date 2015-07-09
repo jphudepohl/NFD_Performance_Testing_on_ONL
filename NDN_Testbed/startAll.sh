@@ -51,8 +51,8 @@ echo ${ROUTER_CONFIG}
 for s in "${ROUTER_CONFIG[@]}"
 do
   router_info=(${s//:/ })
-  HOST=${router_info[2]}
-  NAME=${router_info[1]}
+  HOST=${router_info[3]}
+  NAME=${router_info[0]}
   echo "startAll.sh, nlsr: $NAME"
   ssh ${!HOST} "cd $CWD ; nohup nlsr -f ./NLSR_CONF/$NAME.conf > ./NLSR_OUTPUT/$NAME.OUTPUT 2>&1 &"
 done

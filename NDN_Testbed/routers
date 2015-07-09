@@ -6,39 +6,39 @@
 
 # the format here is [router name]:[site name]:[host alias]:[router ip]:[{neighbor router name}: for each neighbor]
 
-ROUTER_CONFIG=( "mccoy:colostate:h8x2:192.168.8.2:ndnx:ndn0:hobo"
-                "ndnx:illinois:h18x2:192.168.18.2:mccoy:ndn0:wundngw"
-                "ndn0:umich:h1x2:192.168.1.2:mccoy:wundngw:titan"
-                "titan:memphis:h2x2:192.168.2.2:ndn0:wundngw:hobo"
-                "wundngw:wustl:h10x2:192.168.10.2:hobo:titan:ndnx"
-                "hobo:arizona:h11x1:192.168.11.1:wundngw:mccoy:titan")
+# [site name abbreviation]
+# :[site extension]
+# :[router extension]
+# :[host alias]
+# :[router ip]
+# :[{neighbor site name abbreviation}: for each neighbor]
 
-                "mccoy:colostate:h15x2:192.168.15.2:hobo:aleph:spurs:pastal0:ndnx:ndn0:router3"
-				"h13x1:VMsmall3:pastal0:192.168.14.2:192.168.13.1"
-				"h11x1:VMsmall4:spurs:192.168.12.2:192.168.11.1"
-				"h9x1:VMsmall5:aleph:192.168.10.2:192.168.9.1"
-				"h7x1:VMsmall6:ndnhub:192.168.8.2:192.168.7.1"
-				"h5x1:VMsmall7:click:192.168.6.2:192.168.5.1"                    
-				"h3x1:VMsmall25:hobo:192.168.4.1:192.168.3.1"
+ROUTER_CONFIG=( "csu:edu/colostate:mccoy:h15x2:192.168.15.2:ua:remap:ucla:byu:uiuc:mich:kisti"
+				"byu:edu/byu:pastal0:h13x1:192.168.13.1:remap:ua:csu"
+				"ucla:edu/ucla:cs/spurs:h11x1:192.168.11.1:caida:uci:remap:csu:pku"
+				"remap:edu/ucla/remap:cs/aleph:h9x1:192.168.9.1:uci:ucla:ua:byu:csu"
+				"uci:edu/uci:ndnhub:h7x1:192.168.7.1:caida:ucla:remap"
+				"caida:org/caida:click:h5x1:192.168.5.1:ua:uci:ucla:tongji"                    
+				"ua:edu/arizona:hobo:h3x1:192.168.3.1:um:wu:csu:byu:remap:caida:waseda"
                     
-                "h28x1:VMsmall29:wundngw:192.168.29.2:192.168.28.1"
-                "h30x1:VMsmall28:ndnx:192.168.31.1:192.168.30.1"
-                "h27x1:VMsmall27:ndn0:192.168.26.2:192.168.27.1"
-                "h25x2:VMsmall26:ndnrtr:192.168.24.1:192.168.25.2"
-                "h23x2:VMsmall34:labs-ndn3:192.168.22.1:192.168.23.2"
-                "h21x1:VMsmall30:titan:192.168.20.2:192.168.21.1"
+                "wu:edu/wustl:wundngw:h28x1:192.168.28.1:ua:um:uiuc:verisign:urjc"
+                "uiuc:edu/illinois:ndnx:h30x1:192.168.30.1:wu:csu:mich:padua"
+                "mich:edu/umich:ndn0:h27x1:192.168.27.1:verisign:um:uiuc:csu:neu:pku:lip6"
+                "neu:edu/neu:ndnrtr:h25x2:192.168.25.2:um:mich:ntnu"
+                "verisign:NLSR/LSA/com/verisign:labs-ndn3:h23x2:192.168.23.2:um:wu:mich"
+                "um:edu/memphis:titan:h21x1:192.168.21.1:ua:wu:mich:neu:verisign:orange"
 
-                "h49x1:VMsmall43:ndnhub:192.168.49.2:192.168.49.1"
-                "h51x2:VMsmall44:ndnnode:192.168.50.2:192.168.51.2"
-                "h57x1:VMsmall45:systemx-ndn-1:192.168.56.2:192.168.57.1"
-                "h55x2:VMsmall46:cs-ndn-testbed1:192.168.54.1:192.168.55.2"
-                "h53x2:VMsmall47:orange-ndn-1:192.168.52.1:192.168.53.2"
-                "h47x1:VMsmall48:ndnnode:192.168.46.2:192.168.47.1"
-                "h44x1:VMsmall49:insula:192.168.45.1:192.168.44.1"
+                "lip6:fr/lip6:ndnhub:h49x1:192.168.49.1:urjc:systemx:orange:basel:ntnu:mich"
+                "ntnu:no/ntnu:ndnnode:h51x2:192.168.51.2:lip6:systemx:basel:neu:pku"
+                "systemx:fr/irt-systemx:systemx-ndn-1:h57x1:192.168.57.1:orange:lip6:ntnu:basel"
+                "basel:ch/unibas:cs-ndn-testbed1:h55x2:192.168.55.2:padua:urjc:orange:lip6:systemx:ntnu:pku"
+                "orange:fr/orange1:orange-ndn-1:h53x2:192.168.53.2:urjc:padua:basel:systemx:lip6:um:waseda"
+                "padua:it/unipd:ndnnode:h47x1:192.168.47.1:urjc:orange:basel:uiuc"
+                "urjc:es/urjc:insula:h44x1:192.168.44.1:lip6:orange:basel:padua:wu"
 
-                "h32x1:VMsmall35:cnlab:192.168.33.2:192.168.32.1"
-                "h34x1:VMsmall36:parklab:192.168.35.2:192.168.34.1"
-                "h36x1:VMsmall37:router3:192.168.37.2:192.168.36.1"
-                "h38x1:VMsmall38:anyanghub:192.168.39.2:192.168.38.1"
-                "h42x2:VMsmall39:bupthub:192.168.40.2:192.168.42.2"
-                "h43x2:VMsmall40:pkuhub:192.168.41.2:192.168.43.2")
+                "tongji:cn/edu/tongji:cnlab:h32x1:192.168.32.1:bupt:pku:anyang:waseda:caida"
+                "waseda:jp/waseda:parklab:h34x1:192.168.34.1:tongji:kisti:bupt:orange:anyang:ua"
+                "kisti:kr/re/kisti:router3:h36x1:192.168.36.1:bupt:anyang:waseda:csu"
+                "anyang:kr/anyang:anyanghub:h38x1:192.168.38.1:pku:bupt:tongji:kisti:waseda"
+                "bupt:cn/edu/bupt:bupthub:h42x2:192.168.42.2:pku:tongji:anyang:kisti:waseda"
+                "pku:cn/edu/pku:pkuhub:h43x2:192.168.43.2:bupt:tongji:ucla:mich:anyang:ntnu:basel")

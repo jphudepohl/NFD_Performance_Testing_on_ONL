@@ -20,8 +20,8 @@ routers = []
 neighbor_string = """
    neighbor  ; sitename
    {
-       name /ndn/edu/sitename/%C1.Router/routername       ; name prefix of the neighbor router consists
-                                            ; of network, site-name and router-name
+       name /ndn/site_extension/%C1.Router/router_extension       ; name prefix of the neighbor router consists
+                                            ; of network, site-extension and router-extension
        face-uri  udp4://routerip                 ; face id of the face connected to the neighbor
        link-cost 2                         ; cost of the connecting link to neighbor
    }
@@ -38,12 +38,13 @@ def read_network_config():
         
         if single_router:
             router_info = single_router.group(1).split(':')
-            router_object = {'routername':router_info[0],
-                             'sitename' :router_info[1],
-                             'hostalias':router_info[2],
-                             'routerip':router_info[3]}
+            router_object = {'sitename':router_info[0],
+                             'site_extension':router_info[1],
+                             'router_extension':router_info[2],
+                             'hostalias':router_info[3],
+                             'routerip':router_info[4]}
             # allows for any number of neighbors
-            neighbors = [x for idx, x in enumerate(router_info) if idx > 3]
+            neighbors = [x for idx, x in enumerate(router_info) if idx > 4]
             router_object['neighbors'] = neighbors
 
             # insert info in to routers array
@@ -51,7 +52,7 @@ def read_network_config():
 
 def get_object_with_value(neighbor):
     for x in routers:
-        if x['routername'] == neighbor:
+        if x['sitename'] == neighbor:
             return x
     else:
         print("Neighbor %s is not in your configuration", neighbor)
@@ -65,17 +66,17 @@ def setup_neighbors(router):
         # find necessary information about the specified router
         neighbor_info = get_object_with_value(neighbor)
         # replace necessary information from template string and add to return_str
-        temp_str = re.sub(r'sitename',neighbor_info['sitename'], temp_str)
-        temp_str = re.sub(r'routername',neighbor_info['routername'], temp_str)
+        temp_str = re.sub(r'site_extension',neighbor_info['site_extension'], temp_str)
+        temp_str = re.sub(r'router_extension',neighbor_info['router_extension'], temp_str)
         temp_str = re.sub(r'routerip',neighbor_info['routerip'], temp_str)
         return_str += temp_str
     return return_str
 
 def process(keyword, router):
-    keywords = ["sitename", "routername", "neighbors"]
+    keywords = ["site_extension", "router_extension", "neighbors"]
 
     if keyword in keywords:
-        if keyword == "sitename" or keyword == "routername":
+        if keyword == "site_extension" or keyword == "router_extension":
             return router[keyword]
         if keyword == "neighbors":
             return setup_neighbors(router)
